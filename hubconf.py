@@ -22,6 +22,12 @@ def _make_detr(backbone_name: str, dilation=False, num_classes=91, mask=False):
         return DETRsegm(detr)
     return detr
 
+def detr_local(num_classes=None, checkpoint_path=None, backbone='resnet50'):
+    model = _make_detr(backbone, dilation=False, num_classes=num_classes)
+    checkpoint = torch.load(checkpoint_path)
+    model.load_state_dict(checkpoint["model"])
+
+    return model
 
 def detr_resnet50(pretrained=False, num_classes=91, return_postprocessor=False):
     """
